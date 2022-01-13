@@ -1,17 +1,14 @@
-import express from 'express';
-import 'reflect-metadata';
-
 import { createConnection, Connection } from 'typeorm';
 
 import {LpLeadsTest} from './entities/lpLeadsEntity';
 
-const test = async () => { 
+async () => { 
     const response: Connection = await createConnection({
         type: 'sqlite',
         database: './db/database.db',
         migrationsTableName: 'lp_local_leads_test',
-        migrations: ["migration/*.ts"],
-        entities: ['entities/*.ts'],
+        migrations: ["src/migration/*.ts"],
+        entities: [LpLeadsTest, 'src/entities/*.ts'],
         cli: {
             migrationsDir: 'migration'
         }
@@ -35,15 +32,3 @@ const test = async () => {
 
     console.log("GRAVOU!!")
 }
-
-
-const app = express();
-
-app.use('/', (req, res) => {
-    res.status(200).send('Working!!!!')
-    test();
-})
-
-
-
-app.listen(3333);
